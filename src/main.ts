@@ -24,6 +24,10 @@ async function bootstrap() {
     new HttpExceptionFilter(),
   );
 
-  await app.listen(3000);
+  logger.log(`App started on port ${process.env.PORT}`);
+  logger.log(`NODE_ENV = ${process.env.NODE_ENV}`);
+
+  if (!process.env.PORT) throw new Error('no port');
+  await app.listen(process.env.PORT || -1);
 }
 bootstrap();
