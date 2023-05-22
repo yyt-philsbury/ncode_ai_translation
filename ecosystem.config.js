@@ -5,7 +5,7 @@ module.exports = {
       // can use process.env.name to access this
       // RENAME THIS FOR YOUR PROJECT FOR EASIER FINDING IN pm2 list
       // eg. prj_be_1
-      name: 'NestJS Backend Template (Primary)',
+      name: 'ncode_be_1',
       // We run the transpiled version to avoid transpiling
       // all instances to javascript on dev mode
       // So basically because the code is in TS, we can't
@@ -48,4 +48,3 @@ module.exports = {
     // },
   ],
 };
-
