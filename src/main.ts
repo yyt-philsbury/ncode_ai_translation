@@ -6,6 +6,7 @@ import {
 import { AppModule } from 'src/app.module';
 import { HttpExceptionFilter } from 'src/common/filters/http.filter';
 import { UncaughtExceptionFilter } from 'src/common/filters/uncaught.filter';
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
 import { setAxiosDefault } from 'src/common/utils/axios';
 import { CustomWinstonLogger } from 'src/logger/custom_winston_logger.service';
 
@@ -44,11 +45,13 @@ async function bootstrap() {
     new UncaughtExceptionFilter(logger),
     new HttpExceptionFilter(),
   );
-
-  logger.log(`App started on port ${process.env.PORT}`);
-  logger.log(`NODE_ENV = ${process.env.NODE_ENV}`);
+  app.useGlobalInterceptors(new LoggingInterceptor(logger));
 
   if (!process.env.PORT) throw new Error('no port');
   await app.listen(process.env.PORT || -1);
+
+  logger.warn(`App started on port ${process.env.PORT}`);
+  logger.warn(`NODE_ENV = ${process.env.NODE_ENV}`);
 }
+
 bootstrap();
