@@ -21,15 +21,15 @@ module.exports = {
       // for dev purposes
       env_development: {
         NODE_ENV: 'development',
-        PORT: 3000,
+        PORT: 5015,
       },
       env_production_blue: {
         NODE_ENV: 'production',
-        PORT: 3000,
+        PORT: 5015,
       },
       env_production_green: {
         NODE_ENV: 'production',
-        PORT: 3001,
+        PORT: 5016,
       },
     },
     // {

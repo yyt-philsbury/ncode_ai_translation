@@ -6,6 +6,7 @@ import {
 import { AppModule } from 'src/app.module';
 import { HttpExceptionFilter } from 'src/common/filters/http.filter';
 import { UncaughtExceptionFilter } from 'src/common/filters/uncaught.filter';
+import { setAxiosDefault } from 'src/common/utils/axios';
 import { CustomWinstonLogger } from 'src/logger/custom_winston_logger.service';
 
 async function bootstrap() {
@@ -13,6 +14,26 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+
+  setAxiosDefault();
+
+  // enable cors on dev, on production I woulc
+  // recommend setting allow origin for example.com and release.example.com
+  // nginx can hotswap example.com and release.example.com once its tested
+
+  if (process.env['NODE_ENV'] === 'development') {
+    app.enableCors();
+  }
+  if (process.env['NODE_ENV'] === 'production') {
+    app.enableCors({
+      origin: [
+        'https://subdomain.saasdq.com',
+        'https://www.subdomain.saasdq.com',
+        'https://releasecandidate.subdomain.saasdq.com',
+        'https://www.releasecandidate.subdomain.saasdq.com',
+      ],
+    });
+  }
 
   app.setGlobalPrefix('api');
   app.enableShutdownHooks();

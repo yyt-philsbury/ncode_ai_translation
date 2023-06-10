@@ -7,12 +7,51 @@ generator client {
 
 datasource db {
     provider = "sqlite"
-    url      = "file:./db/database.db"
+    url      = "file:./db/ncode_translation_ai/database.db"
     // on production you need an absolute path unless you're
     // replacing the database every deployment
     // url = "file:/dbs/be_template/database.db"
 }
 
-model test_table {
+model users {
+    id                       String @id @default(uuid())
+    email                    String @unique
+    hashed_password          String
+    encrypted_openai_api_key String
+
+    activation_keys activation_keys[]
+}
+
+model activation_keys {
     id String @id @default(uuid())
+
+    user_id String?
+    user    users?  @relation(fields: [user_id], references: [id])
+
+    expires_on DateTime
+}
+
+model books {
+    id       String     @id @default(uuid())
+    chapters chapters[]
+
+    is_enabled Boolean @default(true)
+
+    title  String
+    author String
+    url    String
+
+    @@index([url])
+}
+
+model chapters {
+    id String @id @default(uuid())
+
+    book     books  @relation(fields: [books_id], references: [id])
+    books_id String
+
+    url   String
+    title String
+
+    text String
 }

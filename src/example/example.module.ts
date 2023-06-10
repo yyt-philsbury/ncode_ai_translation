@@ -18,4 +18,3 @@ import { ExampleLoggingController } from 'src/example/controllers/logger.control
   ],
 })
 export class ExampleModule {}
-
